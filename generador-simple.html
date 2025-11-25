@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Factura</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            padding: 48px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6c757d;
+            font-size: 15px;
+            margin-bottom: 36px;
+        }
+
+        .btn-generate {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-generate:hover {
+            background: #0052a3;
+        }
+
+        #resultado {
+            margin-top: 36px;
+            display: none;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 15px;
+            padding: 8px 0;
+        }
+
+        .info-item:not(:last-child) {
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-label {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .total-box {
+            background: #e7f3ff;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .total-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0066cc;
+        }
+
+        .btn-ir {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            width: 100%;
+            max-width: 280px;
+            margin: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-ir:hover {
+            background: #218838;
+        }
+
+        .btn-nuevo {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 12px;
+        }
+
+        .btn-nuevo:hover {
+            background: #5a6268;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 36px 24px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .btn-generate, .btn-ir {
+                font-size: 16px;
+                padding: 14px 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👓 Generador de Factura</h1>
+        <p class="subtitle">Genera una factura con datos aleatorios</p>
+        
+        <button class="btn-generate" onclick="generarDatos()">
+            Generar Datos
+        </button>
+
+        <div id="resultado">
+            <div class="info-box">
+                <div class="info-item">
+                    <span class="info-label">Producto:</span>
+                    <span class="info-value" id="infoProducto"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Cantidad:</span>
+                    <span class="info-value" id="infoCantidad"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Precio Unitario:</span>
+                    <span class="info-value" id="infoPrecio"></span>
+                </div>
+            </div>
+
+            <div class="total-box">
+                <span class="total-label">Total:</span>
+                <span class="total-value" id="infoTotal"></span>
+            </div>
+
+            <a class="btn-ir" id="btnIr" href="#" target="_blank">
+                🔗 Ir a Facturación
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const BASE_URL = 'https://proyecto-facturacion.onrender.com/';
+        
+        // Datos predefinidos
+        const productos = [
+            { nombre: 'Gafas Graduadas Montura Metálica', precio: 3500 },
+            { nombre: 'Gafas de Sol Polarizadas', precio: 2800 },
+            { nombre: 'Gafas Progresivas Premium', precio: 8500 },
+            { nombre: 'Gafas Deportivas Anti-Reflejo', precio: 4200 },
+            { nombre: 'Gafas de Lectura Plegables', precio: 1500 },
+            { nombre: 'Gafas Blue Light Filter', precio: 2200 },
+            { nombre: 'Gafas Montura Acetato', precio: 3800 },
+            { nombre: 'Gafas de Sol Wayfarer', precio: 3200 },
+            { nombre: 'Gafas Bifocales', precio: 5500 },
+            { nombre: 'Gafas Infantiles Flexibles', precio: 2400 },
+            { nombre: 'Gafas Aviador Clásico', precio: 3600 },
+            { nombre: 'Gafas Transitions Fotocromáticas', precio: 6800 },
+            { nombre: 'Gafas Cat Eye Vintage', precio: 2900 },
+            { nombre: 'Gafas de Seguridad Laboral', precio: 1800 },
+            { nombre: 'Gafas Redondas Retro', precio: 2600 }
+        ];
+
+        const cantidades = [1, 2, 3, 5, 10];
+
+        function obtenerAleatorio(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function crearURL(producto, cantidad, precio) {
+            const params = new URLSearchParams({
+                producto: producto,
+                cantidad: cantidad,
+                precio_unitario: precio
+            });
+            return BASE_URL + '?' + params.toString();
+        }
+
+        function generarDatos() {
+            // Seleccionar datos aleatorios
+            const productoAleatorio = obtenerAleatorio(productos);
+            const cantidadAleatoria = obtenerAleatorio(cantidades);
+            
+            const producto = productoAleatorio.nombre;
+            const cantidad = cantidadAleatoria;
+            const precio = productoAleatorio.precio;
+            const total = (cantidad * precio).toFixed(2);
+
+            // Crear URL
+            const url = crearURL(producto, cantidad, precio);
+
+            // Mostrar información
+            document.getElementById('infoProducto').textContent = producto;
+            document.getElementById('infoCantidad').textContent = cantidad;
+            document.getElementById('infoPrecio').textContent = `$${precio.toFixed(2)} MXN`;
+            document.getElementById('infoTotal').textContent = `$${total} MXN`;
+            
+            // Configurar botón
+            document.getElementById('btnIr').href = url;
+
+            // Mostrar resultado
+            document.getElementById('resultado').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
