@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Factura</title>
+    <title>Generador de Facturación</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: #f5f7fa;
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,252 +23,205 @@
 
         .container {
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            padding: 48px 40px;
-            max-width: 500px;
+            border: 2px solid #000000;
+            padding: 60px 50px;
+            max-width: 450px;
             width: 100%;
             text-align: center;
         }
 
         h1 {
             font-size: 28px;
-            color: #1a1a1a;
-            margin-bottom: 8px;
+            color: #000000;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .subtitle {
-            color: #6c757d;
-            font-size: 15px;
-            margin-bottom: 36px;
+            color: #666666;
+            font-size: 14px;
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn-generate {
-            background: #0066cc;
+        .btn {
+            background: #000000;
             color: white;
             border: none;
-            padding: 16px 40px;
-            border-radius: 8px;
-            font-size: 17px;
+            padding: 18px 50px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
             width: 100%;
-            max-width: 280px;
-        }
-
-        .btn-generate:hover {
-            background: #0052a3;
-        }
-
-        #resultado {
-            margin-top: 36px;
-            display: none;
-        }
-
-        .info-box {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 15px;
-            padding: 8px 0;
-        }
-
-        .info-item:not(:last-child) {
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .info-label {
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .info-value {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .total-box {
-            background: #e7f3ff;
-            border-radius: 8px;
-            padding: 16px 24px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-label {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
-        }
-
-        .total-value {
-            font-size: 22px;
-            font-weight: 700;
-            color: #0066cc;
-        }
-
-        .btn-ir {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 8px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            width: 100%;
-            max-width: 280px;
-            margin: 8px;
+            max-width: 300px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             text-decoration: none;
             display: inline-block;
         }
 
-        .btn-ir:hover {
-            background: #218838;
+        .btn:hover {
+            background: #333333;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #ffffff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .btn-nuevo {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-top: 12px;
-        }
-
-        .btn-nuevo:hover {
-            background: #5a6268;
+        #resultado {
+            margin-top: 40px;
+            display: none;
         }
 
         @media (max-width: 600px) {
             .container {
-                padding: 36px 24px;
+                padding: 40px 30px;
             }
 
             h1 {
                 font-size: 24px;
             }
 
-            .btn-generate, .btn-ir {
-                font-size: 16px;
-                padding: 14px 32px;
+            .btn {
+                font-size: 13px;
+                padding: 16px 40px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>👓 Generador de Factura</h1>
-        <p class="subtitle">Genera una factura con datos aleatorios</p>
+        <img src="LOGO_MO_MEXICO_dark.webp" alt="Logo" style="max-width: 140px; height: auto; margin-bottom: 30px;">
+        <h1>Generador</h1>
+        <p class="subtitle">Facturación Aleatoria</p>
         
-        <button class="btn-generate" onclick="generarDatos()">
-            Generar Datos
+        <button class="btn" onclick="generarDatos()">
+            Generar Enlace
         </button>
 
         <div id="resultado">
-            <div class="info-box">
-                <div class="info-item">
-                    <span class="info-label">Producto:</span>
-                    <span class="info-value" id="infoProducto"></span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Cantidad:</span>
-                    <span class="info-value" id="infoCantidad"></span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">Precio Unitario:</span>
-                    <span class="info-value" id="infoPrecio"></span>
-                </div>
-            </div>
-
-            <div class="total-box">
-                <span class="total-label">Total:</span>
-                <span class="total-value" id="infoTotal"></span>
-            </div>
-
-            <a class="btn-ir" id="btnIr" href="#" target="_blank">
-                🔗 Ir a Facturación
+            <a class="btn" id="btnIr" href="#" target="_blank">
+                Ir a Facturación
             </a>
         </div>
     </div>
 
     <script>
-        const BASE_URL = 'https://dev.moglobaleyewear.es/api-facturacion';
+        const BASE_URL = 'https://dev.moglobaleyewear.es/api-facturacion/';
         
-        // Datos predefinidos
-        const productos = [
-            { nombre: 'Gafas Graduadas Montura Metálica', precio: 3500 },
-            { nombre: 'Gafas de Sol Polarizadas', precio: 2800 },
-            { nombre: 'Gafas Progresivas Premium', precio: 8500 },
-            { nombre: 'Gafas Deportivas Anti-Reflejo', precio: 4200 },
-            { nombre: 'Gafas de Lectura Plegables', precio: 1500 },
-            { nombre: 'Gafas Blue Light Filter', precio: 2200 },
-            { nombre: 'Gafas Montura Acetato', precio: 3800 },
-            { nombre: 'Gafas de Sol Wayfarer', precio: 3200 },
-            { nombre: 'Gafas Bifocales', precio: 5500 },
-            { nombre: 'Gafas Infantiles Flexibles', precio: 2400 },
-            { nombre: 'Gafas Aviador Clásico', precio: 3600 },
-            { nombre: 'Gafas Transitions Fotocromáticas', precio: 6800 },
-            { nombre: 'Gafas Cat Eye Vintage', precio: 2900 },
-            { nombre: 'Gafas de Seguridad Laboral', precio: 1800 },
-            { nombre: 'Gafas Redondas Retro', precio: 2600 }
+        const productosDisponibles = [
+            'HI INDEX 1.67 AR',
+            'LENTE 1.6 SOL',
+            'LENTE TRANSITIONS',
+            'BIFOCAL FLAT TOP',
+            'PROGRESIVO PREMIUM',
+            'ANTI-REFLEJANTE HD',
+            'FOTOCROMÁTICO GRIS',
+            'POLICARBONATO UV',
+            'BLUE LIGHT FILTER',
+            'LENTE POLARIZADO',
+            'MONOFOCAL CR-39',
+            'LENTE ESPEJADO'
         ];
 
-        const cantidades = [1, 2, 3, 5, 10];
+        const preciosMin = [200, 300, 400, 500];
+        const preciosMax = [600, 800, 1000, 1200];
+        const ivaOpciones = [0, 16];
+        const cantidadesOpciones = [1, 2, 3, 4, 5];
 
         function obtenerAleatorio(array) {
             return array[Math.floor(Math.random() * array.length)];
         }
 
-        function crearURL(producto, cantidad, precio) {
-            const params = new URLSearchParams({
-                producto: producto,
-                cantidad: cantidad,
-                precio_unitario: precio
+        function generarPrecioAleatorio() {
+            const min = obtenerAleatorio(preciosMin);
+            const max = obtenerAleatorio(preciosMax);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generarNumeroProductos() {
+            const random = Math.random();
+            if (random < 0.4) return 1;
+            if (random < 0.7) return 2;
+            if (random < 0.9) return 3;
+            return 4;
+        }
+
+        function crearURL(productos) {
+            let ticketNum = Math.floor(Math.random() * 9999) + 1;
+            let url = BASE_URL + `?ticket=${ticketNum}`;
+            
+            productos.forEach((prod, index) => {
+                const idx = index + 1;
+                url += `&producto[${idx}]=${encodeURIComponent(prod.nombre)}`;
+                url += `&cantidad[${idx}]=${prod.cantidad}`;
+                url += `&precio[${idx}]=${prod.precio}`;
+                url += `&iva[${idx}]=${prod.iva}`;
             });
-            return BASE_URL + '?' + params.toString();
+            
+            return url;
         }
 
         function generarDatos() {
-            // Seleccionar datos aleatorios
-            const productoAleatorio = obtenerAleatorio(productos);
-            const cantidadAleatoria = obtenerAleatorio(cantidades);
+            const btnGenerar = document.querySelector('.btn');
+            const textoOriginal = btnGenerar.textContent;
             
-            const producto = productoAleatorio.nombre;
-            const cantidad = cantidadAleatoria;
-            const precio = productoAleatorio.precio;
-            const total = (cantidad * precio).toFixed(2);
-
-            // Crear URL
-            const url = crearURL(producto, cantidad, precio);
-
-            // Mostrar información
-            document.getElementById('infoProducto').textContent = producto;
-            document.getElementById('infoCantidad').textContent = cantidad;
-            document.getElementById('infoPrecio').textContent = `$${precio.toFixed(2)} MXN`;
-            document.getElementById('infoTotal').textContent = `$${total} MXN`;
+            // Deshabilitar botón y mostrar spinner
+            btnGenerar.disabled = true;
+            btnGenerar.innerHTML = textoOriginal + ' <span class="spinner"></span>';
             
-            // Configurar botón
-            document.getElementById('btnIr').href = url;
+            // Simular pequeña carga
+            setTimeout(() => {
+                const numProductos = generarNumeroProductos();
+                const productos = [];
+                const productosUsados = [];
 
-            // Mostrar resultado
-            document.getElementById('resultado').style.display = 'block';
+                for (let i = 0; i < numProductos; i++) {
+                    let productoNombre;
+                    do {
+                        productoNombre = obtenerAleatorio(productosDisponibles);
+                    } while (productosUsados.includes(productoNombre));
+                    
+                    productosUsados.push(productoNombre);
+                    
+                    productos.push({
+                        nombre: productoNombre,
+                        cantidad: obtenerAleatorio(cantidadesOpciones),
+                        precio: generarPrecioAleatorio(),
+                        iva: obtenerAleatorio(ivaOpciones)
+                    });
+                }
+
+                const url = crearURL(productos);
+                document.getElementById('btnIr').href = url;
+                document.getElementById('resultado').style.display = 'block';
+                
+                // Restaurar botón
+                btnGenerar.disabled = false;
+                btnGenerar.textContent = 'Generar Otro';
+            }, 500);
         }
     </script>
 </body>
