@@ -175,10 +175,11 @@
             
             productos.forEach((prod, index) => {
                 const idx = index + 1;
-                url += `&producto[${idx}]=${encodeURIComponent(prod.nombre)}`;
-                url += `&cantidad[${idx}]=${prod.cantidad}`;
-                url += `&precio[${idx}]=${prod.precio}`;
-                url += `&iva[${idx}]=${prod.iva}`;
+                // Codificar manualmente los corchetes
+                url += `&producto%5B${idx}%5D=${encodeURIComponent(prod.nombre).replace(/%20/g, '+')}`;
+                url += `&cantidad%5B${idx}%5D=${prod.cantidad}`;
+                url += `&precio%5B${idx}%5D=${prod.precio}`;
+                url += `&iva%5B${idx}%5D=${prod.iva}`;
             });
             
             return url;
